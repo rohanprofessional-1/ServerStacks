@@ -6,7 +6,7 @@ from processing import process_data
 
 
 def optimize(X):
-    model = joblib.load('/Users/rohannair/PycharmProjects/ServerStacks/models/predict_server_temp.joblib')
+    model = joblib.load('models/predict_server_temp.joblib')
     feature_names = ["Initial_temperature", "angle", "speed"]
     X = np.array(X).reshape(1, -1)
     X = pd.DataFrame(X, columns=feature_names)
