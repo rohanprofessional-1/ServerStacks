@@ -11,11 +11,22 @@ def process_data_test(init_temp, angle, speed):
     return final_t
 
 def process_data(init_temp, angle, speed):
+    # session = fluent.launch_fluent(mode="solver")
+    # path = "models/with_ducting_with_names_mesh_file.cas.h5"
+    # session.file.read_case(file_name=path)
+    # session.solver.tui.solve.initialize.compute_defaults()
+    # session.solver.tui.solve.iterate(1000)
+    # result_file_path = "path/to/save/results.cas"
+    # session.file.write_case(file_name=result_file_path)
+    # session.exit()
     session = fluent.launch_fluent(mode="solver")
-    path = "models/with_ducting_with_names_mesh_file.cas.h5"
+    path = r"models\with_ducting_with_names_mesh_file.cas.h5"
     session.file.read_case(file_name=path)
-    session.solver.tui.solve.initialize.compute_defaults()
-    session.solver.tui.solve.iterate(1000)
-    result_file_path = "path/to/save/results.cas"
-    session.file.write_case(file_name=result_file_path)
-    session.exit()
+    test_inlet = session.setup.boundary_conditions.velocity_inlet["fluid_inlet"]
+    
+    fluent.solver.tui.display.set.velocity_vectors.component_x.value = 0
+    test_inlet.momentum.velocity_vectors.component_y.value = 0
+    test_inlet.momentum.velocity_vectors.component_z.value = -3
+    test_inlet.thermal.temperature.value = init_temp
+if __name__ == "__main__":
+    process_data(0,0,0)
