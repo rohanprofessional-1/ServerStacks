@@ -4,13 +4,13 @@ import settings
 
 import random as rd #temporary variable for generating data
 
-def process_data_test(init_temp, speed):
-    newT = rd.uniform(0, init_temp)
-    newS = rd.uniform(0, speed)
+def process_data_test(input_temp, input_velocity):
+    newT = rd.uniform(0, input_temp)
+    newS = rd.uniform(0, input_velocity)
     final_t = newT * newS
     return final_t, newT, newS
 
-def process_data(init_temp, speed):
+def process_data(input_temp, input_velocity):
     session = fluent.launch_fluent(mode="solver")
 
     session.file.read_case(file_name=settings.CASE_MODEL)
@@ -21,3 +21,6 @@ def process_data(init_temp, speed):
 
     print(session.setup.boundary_conditions.velocity_inlet["inlet"].get_state())
     session.exit()
+    final_t = 0
+
+    return  input_temp, input_velocity, final_t

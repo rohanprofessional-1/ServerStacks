@@ -34,6 +34,9 @@ def train_model():
     joblib.dump(ridge_model, settings.MODEL)
     print("Model successfully trained")
 
-if __name__ == '__main__':
-    create_dataset()
-    train_model()
+def predict_model(input_temp, input_angle):
+    model = joblib.load(settings.MODEL)
+    return model.predict([input_temp, input_angle])
+
+
+

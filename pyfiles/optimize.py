@@ -2,11 +2,11 @@ import numpy as np
 import pandas as pd
 import joblib
 from scipy.optimize import minimize
-
+import settings
 
 
 def optimize(X):
-    model = joblib.load('models/predict_server_temp.joblib')
+    model = joblib.load(settings.MODEL)
     feature_names = ["Initial_temperature", "speed"]
     X = np.array(X).reshape(1, -1)
     X = pd.DataFrame(X, columns=feature_names)
