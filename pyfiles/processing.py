@@ -3,12 +3,11 @@ from ansys.fluent.core.filereader.case_file import CaseFile
 
 import random as rd #temporary variable for generating data
 
-def process_data_test(init_temp, angle, speed):
+def process_data_test(init_temp, speed):
     newT = rd.uniform(0, init_temp)
-    newA = rd.uniform(0, angle)
     newS = rd.uniform(0, speed)
-    final_t = newT * newA * newS
-    return final_t
+    final_t = newT * newS
+    return final_t, newT, newS
 
 def process_data(init_temp, angle, speed):
     session = fluent.launch_fluent(mode="solver")
@@ -18,4 +17,6 @@ def process_data(init_temp, angle, speed):
     session.solver.tui.solve.iterate(1000)
     result_file_path = "path/to/save/results.cas"
     session.file.write_case(file_name=result_file_path)
+
+    print(session.setup.boundary_conditions.velocity_inlet["inlet"].get_state())
     session.exit()

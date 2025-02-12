@@ -6,7 +6,7 @@ from sklearn.linear_model import Ridge
 import joblib
 from processing import process_data
 
-headers = ['Initial_temperature', 'angle', 'speed', 'Final_temperature']
+headers = ['Initial_temperature', 'speed', 'Final_temperature']
 
 def create_dataset():
     lower_bound = 1.0
@@ -16,7 +16,7 @@ def create_dataset():
     data = np.linspace(lower_bound, upper_bound, num_points)
     dataT, dataA, dataS = np.round(data, precision), np.round(data, precision), np.round(data, precision)
     combinations = list(product(dataT, dataA, dataS))
-    dataset_csv = 'results.csv'
+    dataset_csv = 'dataset.csv'
     with open(dataset_csv, 'w') as f:
         writer = csv.writer(f)
         writer.writerow(headers)
@@ -27,7 +27,7 @@ def create_dataset():
             writer.writerow(row)
 
 def train_model():
-    results = pd.read_csv('results.csv')
+    results = pd.read_csv('dataset.csv')
     X = results[headers[0:len(headers) - 1]]
     y = results[['Final_temperature']]
     ridge_model = Ridge(alpha=1.0)
