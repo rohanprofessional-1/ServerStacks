@@ -1,5 +1,6 @@
 import ansys.fluent.core as fluent
 from ansys.fluent.core.filereader.case_file import CaseFile
+import settings
 
 import random as rd #temporary variable for generating data
 
@@ -9,10 +10,10 @@ def process_data_test(init_temp, speed):
     final_t = newT * newS
     return final_t, newT, newS
 
-def process_data(init_temp, angle, speed):
+def process_data(init_temp, speed):
     session = fluent.launch_fluent(mode="solver")
-    path = "models/with_ducting_with_names_mesh_file.cas.h5"
-    session.file.read_case(file_name=path)
+
+    session.file.read_case(file_name=settings.CASE_MODEL)
     session.solver.tui.solve.initialize.compute_defaults()
     session.solver.tui.solve.iterate(1000)
     result_file_path = "path/to/save/results.cas"
