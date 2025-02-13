@@ -1,22 +1,36 @@
 import ansys.fluent.core as fluent
-from ansys.fluent.core.filereader.case_file import CaseFile
 
-import random as rd #temporary variable for generating data
-
-def process_data_test(init_temp, angle, speed):
-    newT = rd.uniform(0, init_temp)
-    newA = rd.uniform(0, angle)
-    newS = rd.uniform(0, speed)
-    final_t = newT * newA * newS
-    return final_t
-
-def process_data(init_temp, angle, speed):
+def process_data(velocity, initial_temp):
     session = fluent.launch_fluent(mode="solver")
     path = "models/with_ducting_with_names_mesh_file.cas.h5"
     session.file.read_case(file_name=path)
-    session.solver.tui.solve.initialize.compute_defaults()
-    session.solver.tui.solve.iterate(1000)
-    result_file_path = "path/to/save/results.cas"
-    session.file.write_case(file_name=result_file_path)
-    session.exit()
-#test commit 
+    session.setup.boundary_conditions.velocity_inlet["fluid_inlet"].vmag = velocity #change this to momentum.velocity if it doesn't work
+    session.setup.boundary_conditions.velocity_inlet["fluid_inlet"].thermal.temperature.set_state(initial_temp)
+
+    server_report1 = session.solution.monitor.report.create(
+        "surface-massavg",  # Report type as a string
+        name="server1_report",
+        surface_names=["interior-server_1"],
+        field="temperature"
+    )
+
+    server_report2 = session.solution.monitor.report.create(
+        "surface-massavg",  # Report type as a string
+        name="server1_report",
+        surface_names=["interior-server_2"],
+        field="temperature"
+    )
+
+    server_report3 = session.solution.monitor.report.create(
+        "surface-massavg",  # Report type as a string
+        name="server1_report",
+        surface_names=["interior-server_3"],
+        field="temperature"
+    )
+
+    session.solution.run_calculation.iterate(iter_count=75)
+    server1_temp = session.solution.report_definitions.compute(server_report1.get_data().data[0])
+    server2_temp = session.solution.report_definitions.compute(server_report2.get_data().data[0])
+    server3_temp = session.solution.report_definitions.compute(server_report3.get_data().data[0])
+    return max(server1_temp, server2_temp, server3_temp)
+
