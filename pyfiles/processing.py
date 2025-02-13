@@ -2,7 +2,8 @@ import ansys.fluent.core as fluent
 
 def process_data(velocity, initial_temp):
     session = fluent.launch_fluent(mode="solver")
-    path = r"C:\Users\snair322\OneDrive - Georgia Institute of Technology\2 projects\ServerStacks\models\with_ducting_with_names_mesh_file.cas.h5"
+    path = r"C:\Users\snair322\OneDrive - Georgia Institute of Technology\2 projects\ServerStacks\models\with_ducting_fluent_meshing.cas 1.h5"
+   
     session.file.read_case(file_name=path)
     session.setup.boundary_conditions.velocity_inlet["fluid_inlet"].momentum.velocity = velocity 
     session.setup.boundary_conditions.velocity_inlet["fluid_inlet"].thermal.t = initial_temp
