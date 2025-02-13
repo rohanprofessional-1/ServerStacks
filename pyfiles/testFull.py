@@ -34,3 +34,6 @@ def test_processing_optimize_threshold_monitor(input_temp, input_velocity):
 
 if __name__ == '__main__':
     test_train_dataset(1, 1)
+    test_processing(1, 1)
+    test_processing_optimize(1, 1)
+    test_processing_optimize_threshold_monitor(1, 1)
