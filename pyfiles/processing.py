@@ -12,7 +12,7 @@ def process_data(velocity, initial_temp):
     server_report1 = session.solution.monitor.report_files.create(
         name="server1_report",
     )
-    field_data = session.fields.field_data.get_surface_data("temperature", surfaces=["wall_server_top_r_3"])
+    field_data = session.fields.field_data.get_scalar_field_data("temperature", surfaces=["wall_server_top_r_3"])
     print(field_data)
     
 
