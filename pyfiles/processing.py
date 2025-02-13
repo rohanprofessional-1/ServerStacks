@@ -6,12 +6,15 @@ def process_data(velocity, initial_temp):
     session.file.read_case(file_name=path)
     session.setup.boundary_conditions.velocity_inlet["fluid_inlet"].momentum.velocity = velocity 
     session.setup.boundary_conditions.velocity_inlet["fluid_inlet"].thermal.t = initial_temp
+    
+    #session.solution.run_calculation.iterate(iter_count=75)
 
     server_report1 = session.solution.monitor.report_files.create(
         name="server1_report",
-        surface_names=["interior-server_1"],
-        field="temperature"
     )
+    field_data = session.fields.field_data.get_surface_data("temperature", surfaces=["wall_server_top_r_3"])
+    print(field_data)
+    
 
     server_report2 = session.solution.monitor.report.create(
         "surface-massavg",
@@ -27,7 +30,6 @@ def process_data(velocity, initial_temp):
         field="temperature"
     )
 
-    session.solution.run_calculation.iterate(iter_count=75)
     
     server1_temp = session.solution.report_definitions.compute(server_report1.get_data().data[0])
     server2_temp = session.solution.report_definitions.compute(server_report2.get_data().data[0])
