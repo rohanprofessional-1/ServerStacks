@@ -8,21 +8,21 @@ def process_data(velocity, initial_temp):
     session.setup.boundary_conditions.velocity_inlet["fluid_inlet"].thermal.temperature.set_state(initial_temp)
 
     server_report1 = session.solution.monitor.report.create(
-        "surface-massavg",  # Report type as a string
+        "surface-massavg",
         name="server1_report",
         surface_names=["interior-server_1"],
         field="temperature"
     )
 
     server_report2 = session.solution.monitor.report.create(
-        "surface-massavg",  # Report type as a string
+        "surface-massavg",
         name="server1_report",
         surface_names=["interior-server_2"],
         field="temperature"
     )
 
     server_report3 = session.solution.monitor.report.create(
-        "surface-massavg",  # Report type as a string
+        "surface-massavg",
         name="server1_report",
         surface_names=["interior-server_3"],
         field="temperature"

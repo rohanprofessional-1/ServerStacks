@@ -11,7 +11,6 @@ if st.button("Run optimization"):
     with st.spinner("Running optimization..."):
         try:
             optimal_values = main(input_temperature)
-            print(optimal_values)
             st.success("Optimization finished!")
             st.write("Velocity", optimal_values.x[0])
             st.write("Temperature", optimal_values.fun)
